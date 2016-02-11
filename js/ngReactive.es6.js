@@ -4,10 +4,10 @@
      */
     // CommonJS
     if (global.module !== undefined)
-        global.module.exports = lib("react", "reactDom");
+        global.module.exports = lib(require('react'), require('react-dom'), require('angular'));
     // AMD
     else if (global.define !== undefined)
-        global.define("ngReactive", () => lib("react", "reactDom"));
+        global.define("ngReactive", ['react', 'react-dom', 'angular'], lib);
     else
         global.ngReactive = lib(global.React, global.ReactDOM, global.angular);
 
@@ -191,8 +191,8 @@
                 vars = Object.keys(scope).filter(v => v.substr(0, 1) !== "$"),
                 cachedValues = [],
                 cachedProxies = [],
-                // Wrap a function or use a cached copy if available
-                //
+            // Wrap a function or use a cached copy if available
+            //
                 mapFn = (i, fn) => {
                     if (cachedValues[i] === fn)
                         return cachedProxies[i];
@@ -201,8 +201,8 @@
                         return cachedProxies[i] = utils.reactFunction(fn, $apply, scope);
                     }
                 },
-                // Map values from $watchGroup to their keys
-                //
+            // Map values from $watchGroup to their keys
+            //
                 mapValues = (newValues) =>
                     newValues.map((_, i) => _ instanceof Function ? mapFn(i, _) : (deepParse && _ instanceof Object ? utils.reactScope(_, $apply) : _))
                         .reduce((obj, _, i) => {obj[vars[i]] = _; return obj }, {}) /* */;

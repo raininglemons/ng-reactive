@@ -3,11 +3,9 @@
      * @see http://ifandelse.com/its-not-hard-making-your-library-support-amd-and-commonjs/
      */
     // CommonJS
-    if (global.module !== undefined) global.module.exports = lib("react", "reactDom");
+    if (global.module !== undefined) global.module.exports = lib(require('react'), require('react-dom'), require('angular'));
     // AMD
-    else if (global.define !== undefined) global.define("ngReactive", function () {
-            return lib("react", "reactDom");
-        });else global.ngReactive = lib(global.React, global.ReactDOM, global.angular);
+    else if (global.define !== undefined) global.define("ngReactive", ['react', 'react-dom', 'angular'], lib);else global.ngReactive = lib(global.React, global.ReactDOM, global.angular);
 })(this, function (React, ReactDOM, angular) {
     "use strict";
 
